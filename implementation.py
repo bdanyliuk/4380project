@@ -19,10 +19,17 @@ cur = conn.cursor()
 
 # Define a list of queries to run
 queries = [
-    "SELECT * FROM my_table",
-    "SELECT COUNT(*) FROM my_table",
-    "SELECT AVG(salary) FROM employees WHERE department = 'Sales'",
-    "SELECT name, age FROM employees ORDER BY age DESC LIMIT 10"
+    "SELECT complaint_type, COUNT(*) AS total_complaints,ROUND((COUNT(CASE WHEN closed_date IS NOT NULL AND closed_date <> '' THEN 1 END) * 100.0 / COUNT(*)), 2) AS closed_percentage FROM requests WHERE city LIKE 'B%' AND created_date NOT LIKE '%/%/201%' GROUP BY complaint_type ORDER BY total_complaints DESC LIMIT 10;",
+    "SELECT strftime('%Y', date) AS year, max(request_count) AS max_requests, month FROM ( SELECT (substr(created_date, 7, 4) || '-' || substr(created_date, 4,2) || '-' || substr(created_date, 1,2)) AS date, strftime('%d', (substr(created_date, 7, 4) || '-' || substr(created_date, 4,2) || '-' || substr(created_date, 1,2))) AS month, count(*) AS request_count FROM requests where agency = 'NYPD' HAVING request_count > 2000 GROUP BY date, month) AS request_counts GROUP BY year, month;",
+    "select IncidentAddress, count(IncidentAddress) from REQUESTS group by IncidentAddress order by count(IncidentAddress) desc limit 10;",
+    "select Agency, AgencyName, count(Agency) as Requests_Closed from REQUESTS where ClosedDate like '12-25-%' and Agency is not 'NYPD' group by Agency order by count(Agency) desc limit 1",
+    "SELECT ComplaintType, count() as count FROM REQUESTS WHERE ComplaintType LIKE'%Heat%' AND ParkBorough LIKE '%BROOKLYN%'",
+    "select city, descriptor, count(descriptor) as description from REQUESTS where incident_zip like '10%' and (descriptor like '%Party%' or descriptor like '%party%') group by city order by description desc",
+    "SELECT complaint_type, count() as count FROM REQUESTS GROUP BY complaint_type ORDER BY count DESC LIMIT 5;",
+    "SELECT city, count() from REQUESTS where complaint_type LIKE ‘%Noise%’ GROUP BY city ORDER BY DESC LIMIT 1;",
+    "SELECT COUNT(*) as count, complaint_type as type FROM REQUESTS WHERE julianday(strftime('%Y-%m-%d', substr(created_date, 1, 10))) >= julianday('2012-10-10') AND julianday(strftime('%Y-%m-%d', substr(created_date, 1, 10))) <= julianday('2012-11-03') group by type order by count desc",
+    "SELECT CreatedDate, count() as count FROM REQUESTS Where ComplaintType LIKE'%Noise%' GROUP BY CreatedDate ORDER BY count DESC LIMIT 3;",
+    "SELECT ComplaintType, Descriptor FROM REQUESTS WHERE CreatedDate LIKE'%2012-12-21%';"
 ]
 
 # Loop through the queries and run them
