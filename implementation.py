@@ -52,8 +52,9 @@ indexes = [
 
 
 optimized_queries = [
+    "", #Query 1
     "", #Query 2
-    "", #Query 3
+    "select IncidentAddress, count(IncidentAddress) from REQUESTS Indexed by ind_IncidentAddress group by IncidentAddress order by count(IncidentAddress) desc limit 10", #Query 3
     "select Agency, AgencyName, count(Agency) as 'Requests Closed' from REQUESTS indexed by ind_Agency_Closed where ClosedDate like "12-25-%" and Agency is not 'NYPD' group by Agency order by count(Agency) desc limit 1", # Query 4
     "", #Query 5
     "", #Query 6
