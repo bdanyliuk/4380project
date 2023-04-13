@@ -27,21 +27,42 @@ queries = [
     "SELECT city, descriptor, count(descriptor) as description from REQUESTS where incident_zip like '10%' and (descriptor like '%Party%' or descriptor like '%party%') group by city order by description desc",
     "SELECT complaint_type, count() as count FROM REQUESTS GROUP BY complaint_type ORDER BY count DESC LIMIT 5;",
     "SELECT city, count() from REQUESTS where complaint_type LIKE ‘%Noise%’ GROUP BY city ORDER BY DESC LIMIT 1;",
+    "SELECT City, COUNT(*) as count from Complaint where CreatedDate  BETWEEN '2020-01-01' and '2022-01-01' GROUP BY City ORDER BY count ASC LIMIT 4;",
     "SELECT COUNT(*) as count, complaint_type as type FROM REQUESTS WHERE julianday(strftime('%Y-%m-%d', substr(created_date, 1, 10))) >= julianday('2012-10-10') AND julianday(strftime('%Y-%m-%d', substr(created_date, 1, 10))) <= julianday('2012-11-03') group by type order by count desc",
     "SELECT CreatedDate, count() as count FROM REQUESTS Where ComplaintType LIKE'%Noise%' GROUP BY CreatedDate ORDER BY count DESC LIMIT 3;",
     "SELECT ComplaintType, Descriptor FROM REQUESTS WHERE CreatedDate LIKE'%2012-12-21%';"
 ]
 
+
 indexes = [
-    
+    "", # Optimization for Query 1
+    "", # Optimization for Query 2
+    "create index ind_IncidentAddress on REQUESTS (IncidentAddress)", # Optimization 3
+    "create index ind_Agency_Closed on REQUESTS (Agency, ClosedDate) where Agency is not ‘NYPD’ and ClosedDate like ‘12-25-%’", # Optimization 4
+    "", # Optimization for Query 5
+    "", # Optimization for Query 6
+    "", # Optimization for Query 7
+    "", # Optimization for Query 8
+    "", # Optimization for Query 9
+    "", # Optimization for Query 10
+    "", # Optimization for Query 11
+    "" # Optimization for Query 12
     
 ]
 
+
 optimized_queries = [
-
-
-
-
+    "", #Query 2
+    "", #Query 3
+    "select Agency, AgencyName, count(Agency) as 'Requests Closed' from REQUESTS indexed by ind_Agency_Closed where ClosedDate like "12-25-%" and Agency is not 'NYPD' group by Agency order by count(Agency) desc limit 1", # Query 4
+    "", #Query 5
+    "", #Query 6
+    "", #Query 7
+    "", #Query 8
+    "", #Query 9
+    "", #Query 10
+    "", #Query 11
+    "" #Query 12
 ]
 
 # Loop through the queries and run them
