@@ -3,9 +3,9 @@ SELECT (substr(created_date, 7, 4) || '-' || substr(created_date, 1,2) || '-' ||
 
 
 Permanently update table created date: 
-UPDATE requests_test SET created_date = (substr(created_date, 7, 4) || '-' || substr(created_date, 1,2) || '-' || substr(created_date, 4,2)|| '' || substr(created_date, 11,length(created_date) -10))
+UPDATE requests SET created_date = (substr(created_date, 7, 4) || '-' || substr(created_date, 1,2) || '-' || substr(created_date, 4,2)|| '' || substr(created_date, 11,length(created_date) -10))
 
 Permanently update table closed date:
-UPDATE requests_test
+UPDATE requests
 SET closed_date = (substr(closed_date, 7, 4) || '-' || substr(closed_date, 1,2) || '-' || substr(closed_date, 4,2)|| '' || substr(closed_date, 11,length(closed_date) -10))
 WHERE closed_date IS NOT NULL AND closed_date <> ''
