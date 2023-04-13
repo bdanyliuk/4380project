@@ -52,7 +52,7 @@ indexes = [
 
 
 optimized_queries = [
-    "SELECT complaint_type, COUNT(*) AS total_complaints, ROUND((COUNT(CASE WHEN closed_date IS NOT NULL AND closed_date <> '' THEN 1 END) * 100.0 / COUNT(*)), 2) AS closed_percentage FROM requests_test INDEXED BY idx_b_2020 WHERE city LIKE 'B%' AND created_date > '2020-01-01' GROUP BY complaint_type ORDER BY total_complaints DESC LIMIT 10", #Query 1
+    "SELECT complaint_type, COUNT(*) AS total_complaints, ROUND((COUNT(CASE WHEN closed_date IS NOT NULL AND closed_date <> '' THEN 1 END) * 100.0 / COUNT(*)), 2) AS closed_percentage FROM requests INDEXED BY idx_b_2020 WHERE city LIKE 'B%' AND created_date > '2020-01-01' GROUP BY complaint_type ORDER BY total_complaints DESC LIMIT 10", #Query 1
     "SELECT strftime('%Y', date) AS year, strftime('%m', date) AS month, max(request_count) AS max_requests FROM ( SELECT substr(created_date, 1,10) AS date, count(*) AS request_count FROM REQUESTS INDEXED BY idx_agency_nypd WHERE agency IS 'NYPD' GROUP BY date HAVING request_count > 2000) AS request_counts GROUP BY year, month;", # Query 2
     "SELECT incident_address, count(incident_address) from REQUESTS Indexed by ind_IncidentAddress group by incident_address order by count(incident_address) desc limit 10", #Query 3
     "SELECT agency, agency_name, count(agency) as 'Requests Closed' from REQUESTS indexed by ind_Agency_Closed where ClosedDate like "12-25-%" and Agency is not 'NYPD' group by Agency order by count(Agency) desc limit 1", # Query 4
