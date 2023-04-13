@@ -12,7 +12,7 @@ import sqlite3
 import time
 
 # Connect to the SQLite database
-conn = sqlite3.connect('example.db')
+conn = sqlite3.connect('requests.db')
 
 # Create a cursor object
 cur = conn.cursor()
@@ -32,6 +32,11 @@ queries = [
     "SELECT ComplaintType, Descriptor FROM REQUESTS WHERE CreatedDate LIKE'%2012-12-21%';"
 ]
 
+indexes = [
+    
+    
+]
+
 optimized_queries = [
 
 
@@ -49,6 +54,11 @@ for query in queries:
     print(f"Query: {query}")
     print(f"Result: {result}")
     print(f"Runtime: {runtime:.6f} seconds\n")
+    
+    
+for index in indexes
+    cur.execute(index);
+    result = cur.fetchall();
     
 for query in optimized_queries:
     start_time = time.time()
